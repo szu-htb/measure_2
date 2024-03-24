@@ -1,15 +1,15 @@
 #include "sensor.h"
-/*½Ó¿Ú¶¨Òå£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡£¡*/
-//I2C½Ó¿Ú SDA-22,SCL-21
+/*æ¥å£å®šä¹‰ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼*/
+//I2Cæ¥å£ SDA-22,SCL-21
 
-//´´½¨¶ÔÏó
+//åˆ›å»ºå¯¹è±¡
 //SHT
 SHTSensor sht(SHTSensor::SHT3X);
 //BH1750
 BH1750 lightMeter(0x23);
 void sensor_Start()
 {
-  //ÎÂÊª¶È
+  //æ¸©æ¹¿åº¦
   if (sht.readSample()) 
   {
     Serial.print("SHT:\n");
@@ -20,7 +20,7 @@ void sensor_Start()
       Serial.print("Error in readSample()\n");
   }
   delay(1000);
-  //¹âÃô
+  //å…‰æ•
   if (lightMeter.measurementReady()) 
   {
     Serial.printf("Light: %.2f lx\n",lightMeter.readLightLevel());

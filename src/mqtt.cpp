@@ -1,10 +1,10 @@
 #include "mqtt.h"
 
 //WIFI
-const char* ssid = "444";    //ĞèÒª¸ü¸ÄWIFIÃû³Æ      *ºóÆÚĞèÒªĞŞ¸ÄÍ¨¹ısmatconfigÅäÍø
-const char* password = "13712819852";  //ĞèÒª¸ü¸ÄWIFIÃÜÂë
-const char* mqtt_server = "broker.mqtt-dashboard.com";    //mqttµÄbrokerÍøÖ·£¨ºóÆÚĞèÒªÁ¬½ÓappµÄ·şÎñÆ÷£©
-WiFiClient espClient;//wifi¶ÔÏó
+//const char* ssid = "444";    //éœ€è¦æ›´æ”¹WIFIåç§°      *åæœŸéœ€è¦ä¿®æ”¹é€šè¿‡smatconfigé…ç½‘
+//const char* password = "13712819852";  //éœ€è¦æ›´æ”¹WIFIå¯†ç 
+const char* mqtt_server = "broker.mqtt-dashboard.com";    //mqttçš„brokerç½‘å€ï¼ˆåæœŸéœ€è¦è¿æ¥appçš„æœåŠ¡å™¨ï¼‰
+WiFiClient espClient;//wifiå¯¹è±¡
 PubSubClient client(espClient);
 unsigned long lastMsg = 0;
 #define MSG_BUFFER_SIZE	(100)
@@ -21,19 +21,19 @@ void Wifi_Init()
 
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
-  //µÈ´ıÁ¬½Ó³É¹¦
+  //ç­‰å¾…è¿æ¥æˆåŠŸ
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
   }
 
   randomSeed(micros());
-  //Á¬½Ówifi
+  //è¿æ¥wifi
   Serial.println("");
   Serial.println("WiFi connected");
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
-  //Á¬½Ómqtt·şÎñÆ÷
+  //è¿æ¥mqttæœåŠ¡å™¨
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
 }
@@ -64,14 +64,14 @@ void reconnect()
   {
     Serial.print("Attempting MQTT connection...");
     // Create a random client ID
-    String clientId = "ESP32Client-";//Ëæ»úID
+    String clientId = "ESP32Client-";//éšæœºID
     clientId += String(random(0xffff), HEX);
     // Attempt to connect
     if (client.connect(clientId.c_str())) 
     {
       Serial.println("connected");
       // Once connected, publish an announcement...
-      client.publish("outTopic", "hello world");//·¢²¼ĞÅÏ¢(Ö÷ÌâÃûĞèÒª¸ü¸Ä)
+      client.publish("outTopic", "hello world");//å‘å¸ƒä¿¡æ¯(ä¸»é¢˜åéœ€è¦æ›´æ”¹)
       // ... and resubscribe
       client.subscribe("inTopic");
     } 
@@ -87,16 +87,16 @@ void reconnect()
 }
 
 
-/// @brief ·¢ËÍ¸øĞÅÏ¢Ö÷Ìâ
+/// @brief å‘é€ç»™ä¿¡æ¯ä¸»é¢˜
 void mqtt_Send()
 {
-  unsigned long now = millis();//Á½Ãë·¢²¼Ò»´ÎĞÅÏ¢
+  unsigned long now = millis();//ä¸¤ç§’å‘å¸ƒä¸€æ¬¡ä¿¡æ¯
   if (now - lastMsg > 2000) 
   {
     lastMsg = now;
-    //snprintf (msg, MSG_BUFFER_SIZE, "hello world %ld", value);//ĞèÒª·¢²¼µÄĞÅÏ¢
+    //snprintf (msg, MSG_BUFFER_SIZE, "hello world %ld", value);//éœ€è¦å‘å¸ƒçš„ä¿¡æ¯
     // Serial.print("Publish message: ");
     // Serial.println(msg);
-    client.publish("topic", msg);//·¢²¼ĞÅÏ¢
+    client.publish("topic", msg);//å‘å¸ƒä¿¡æ¯
   }
 }

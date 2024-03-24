@@ -1,111 +1,43 @@
-//´«¸ĞÆ÷Í·ÎÄ¼ş
+//ä¼ æ„Ÿå™¨å¤´æ–‡ä»¶
 #include "sensor.h"
 #include "soil.h"
-//mqttÍ·ÎÄ¼ş
+//mqttå¤´æ–‡ä»¶
 #include "mqtt.h"
-
+//wifi_Smartconfig
+#include"smartconfig.h"
 
 // void Wifi_Init();
-// //½Óµ½·¢²¼ĞÅÏ¢µÄ»Øµ÷º¯Êı
+// //æ¥åˆ°å‘å¸ƒä¿¡æ¯çš„å›è°ƒå‡½æ•°
 // void callback(char* topic, byte* payload, unsigned int length);
-// //ÖØÁ¬
+// //é‡è¿
 // void reconnect();
+
+
 void setup() 
 {
   sensor_Init();
-  Serial.begin(9600);   //´®¿ÚºóÆÚ¿ÉÓÅ»¯
+  Serial.begin(9600);   //ä¸²å£åæœŸå¯ä¼˜åŒ–
   delay(100); // let serial console settle
-  Wifi_Init();
+  //Wifi_Init();
+  delay(100);
+  if (!AutoConfig())
+  {
+  SmartConfig();
+  }
+  esp_wifi_restore();
 }
-// //´´½¨JSON¶ÔÏó
+// //åˆ›å»ºJSONå¯¹è±¡
 // JsonDocument Data;
 // String input = "{\"sensor\":\"SHT3X\",\"time\":1351824120,\"data\":[48.756080,2.302038]}";
 
 void loop() 
 {
   sensor_Start();
-  //WIFI¼ì²âÑ­»·
+  //WIFIæ£€æµ‹å¾ªç¯
   if (!client.connected()) {
     reconnect();
   }
   client.loop();
-  //·¢ËÍĞÅÏ¢
+  //å‘é€ä¿¡æ¯
   mqtt_Send();
 }
-
-
-// void Wifi_Init()
-// {
-//   delay(10);
-//   // We start by connecting to a WiFi network
-//   Serial.println();
-//   Serial.print("Connecting to ");
-//   Serial.println(ssid);
-
-//   WiFi.mode(WIFI_STA);
-//   WiFi.begin(ssid, password);
-//   //µÈ´ıÁ¬½Ó³É¹¦
-//   while (WiFi.status() != WL_CONNECTED) {
-//     delay(500);
-//     Serial.print(".");
-//   }
-
-//   randomSeed(micros());
-//   //Á¬½Ówifi
-//   Serial.println("");
-//   Serial.println("WiFi connected");
-//   Serial.println("IP address: ");
-//   Serial.println(WiFi.localIP());
-//   //Á¬½Ómqtt·şÎñÆ÷
-//   client.setServer(mqtt_server, 1883);
-//   client.setCallback(callback);
-// }
-
-// void callback(char* topic, byte* payload, unsigned int length) {
-//   Serial.print("Message arrived [");
-//   Serial.print(topic);
-//   Serial.print("] ");
-//   for (int i = 0; i < length; i++) {
-//     Serial.print((char)payload[i]);
-//   }
-//   Serial.println();
-
-//   // Switch on the LED if an 1 was received as first character
-//   // if ((char)payload[0] == '1') {
-//   //   digitalWrite(BUILTIN_LED, LOW);   // Turn the LED on (Note that LOW is the voltage level
-//   //   // but actually the LED is on; this is because
-//   //   // it is active low on the ESP-01)
-//   // } else {
-//   //   digitalWrite(BUILTIN_LED, HIGH);  // Turn the LED off by making the voltage HIGH
-//   // }
-
-// }
-// void reconnect() 
-// {
-//   // Loop until we're reconnected
-//   while (!client.connected())
-//   {
-//     Serial.print("Attempting MQTT connection...");
-//     // Create a random client ID
-//     String clientId = "ESP32Client-";//Ëæ»úID
-//     clientId += String(random(0xffff), HEX);
-//     // Attempt to connect
-//     if (client.connect(clientId.c_str())) 
-//     {
-//       Serial.println("connected");
-//       // Once connected, publish an announcement...
-//       client.publish("outTopic", "hello world");//·¢²¼ĞÅÏ¢(Ö÷ÌâÃûĞèÒª¸ü¸Ä)
-//       // ... and resubscribe
-//       client.subscribe("inTopic");
-//     } 
-//     else
-//     {
-//       Serial.print("failed, rc=");
-//       Serial.print(client.state());
-//       Serial.println(" try again in 5 seconds");
-//       // Wait 5 seconds before retrying
-//       delay(5000);
-//     }
-//   }
-// }
-

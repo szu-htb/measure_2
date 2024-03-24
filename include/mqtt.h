@@ -1,16 +1,16 @@
 #include <PubSubClient.h>
 #include <WiFi.h>
-//json¸ñÊ½Êı¾İ
+//jsonæ ¼å¼æ•°æ®
 #include <ArduinoJson.h>
 
-extern WiFiClient espClient;//wifi¶ÔÏó
+extern WiFiClient espClient;//wifiå¯¹è±¡
 extern PubSubClient client;
 extern 
-//wifi³õÊ¼»¯
+//wifiåˆå§‹åŒ–
 void Wifi_Init();
-//½Óµ½·¢²¼ĞÅÏ¢µÄ»Øµ÷º¯Êı
+//æ¥åˆ°å‘å¸ƒä¿¡æ¯çš„å›è°ƒå‡½æ•°
 void callback(char* topic, byte* payload, unsigned int length);
-//ÖØÁ¬
+//é‡è¿
 void reconnect();
-//·¢ËÍĞÅÏ¢
+//å‘é€ä¿¡æ¯
 void mqtt_Send();

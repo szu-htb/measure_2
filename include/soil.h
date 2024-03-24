@@ -1,4 +1,4 @@
-#include <SoftwareSerial.h> //´®¿ÚÓÃÓÚÍÁÈÀ´«¸ĞÆ÷
+#include <SoftwareSerial.h> //ä¸²å£ç”¨äºåœŸå£¤ä¼ æ„Ÿå™¨
 #include <Arduino.h>
 
 void Soil_Init();

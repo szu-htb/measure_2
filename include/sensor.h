@@ -1,11 +1,11 @@
-#include <BH1750.h>   //¹âÃô´«¸ĞÆ÷
+#include <BH1750.h>   //å…‰æ•ä¼ æ„Ÿå™¨
 #include "Wire.h"     //I2C
 #include "SHTSensor.h"    //SHT3X
 #include <Arduino.h>
 
-//¹âÃôµç×è³õÊ¼»¯
+//å…‰æ•ç”µé˜»åˆå§‹åŒ–
 void BH1750_Init();
-//ÎÂÊª¶È´«¸ĞÆ÷³õÊ¼»¯
+//æ¸©æ¹¿åº¦ä¼ æ„Ÿå™¨åˆå§‹åŒ–
 void Wire_Init();
 
 void sensor_Start();
